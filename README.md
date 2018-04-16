@@ -80,4 +80,5 @@ Actuator 목록
     - Show content : 선택시 Device 앱으로부터 전달된 content raw data 를 보여준다.
 	- Logout 버튼 : 로그인 정보를 삭제하고 로그인 화면으로 이동
 
-Copyright (c) 2017 SK Telecom Co., Ltd. All Rights Reserved.
+Copyright (c) 2018 SK telecom Co., Ltd. All Rights Reserved.
+Distributed under Apache License Version 2.0. See LICENSE for details.
