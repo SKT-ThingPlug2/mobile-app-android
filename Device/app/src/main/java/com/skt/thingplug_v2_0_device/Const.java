@@ -13,8 +13,8 @@ public class Const {
     private static final int GET_LENGTH_MAX = 100;
     public static final int MAX_CLIENT_ID_LENGTH = 24;
 
-    public static final String HOST_THINGPLUG_PORTAL_DEFAULT = "http://(TBD):9000";
-    public static final String HOST_THINGPLUG_SERVER_DEFAULT = "(TBD)";
+    public static final String HOST_THINGPLUG_PORTAL_DEFAULT = "https://test.sktiot.com:9443";
+    public static final String HOST_THINGPLUG_SERVER_DEFAULT = "test.sktiot.com";
 
     public static final String URL_JOIN_THINGPLUG = "%s/join";
     public static final String URL_LOGIN_DEFAULT = "%s/api/v1/login";
