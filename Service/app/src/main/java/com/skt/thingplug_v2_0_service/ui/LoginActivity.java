@@ -176,11 +176,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            checkPermission();
-        } else {
-            checkAutoLogin();
-        }
+        checkAutoLogin();
     }
 
     @Override
@@ -206,7 +202,7 @@ public class LoginActivity extends AppCompatActivity {
                     finish();
                 }
             }
-            checkAutoLogin();
+            //checkAutoLogin();
         }
     }
 
