@@ -232,7 +232,7 @@ public class SimpleWorker {
      * monitoring
      * @param subscribe
      */
-    public void subscribe(Subscribe subscribe) {
+    public void subscribe(Subscribe subscribe, SimpleCallback callback ) {
         if (simple == null || simple.tpSimpleIsConnected() == false) {
             if(reportMessageDelivered == false) {
                 Log.e(TAG, "not delivered!");
@@ -240,17 +240,21 @@ public class SimpleWorker {
             return;
         }
 
-        simple.tpSimpleSubscribe(subscribe, new tp.skt.simple.net.mqtt.SimpleCallback() {
-            @Override
-            public void onResponse(Object o) {
-                Log.i(TAG, "subscribe success");
-            }
+        if(null == callback){
+            callback = new tp.skt.simple.net.mqtt.SimpleCallback() {
+                @Override
+                public void onResponse(Object o) {
+                    Log.i(TAG, "subscribe success");
+                }
 
-            @Override
-            public void onFailure(int errorCode, String message) {
-                Log.e(TAG, errorCode + " : " + message);
-            }
-        });
+                @Override
+                public void onFailure(int errorCode, String message) {
+                    Log.e(TAG, errorCode + " : " + message);
+                }
+            };
+        }
+
+        simple.tpSimpleSubscribe(subscribe, callback);
     }
 
     public int getCmdId() {
