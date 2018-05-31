@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.hardware.Sensor;
 import android.media.ExifInterface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -153,18 +154,33 @@ public class SensorListActivity extends AppCompatActivity {
                     break;
                 case SETTING_RESULT_LOGOUT:
                     Subscribe sub = new Subscribe("delist", userInfo.getServiceName(), userInfo.getDeviceName(), null, false, new ArrayList<String>(Arrays.asList("*")), new ArrayList<String>(Arrays.asList("*")), 1);
-                    simpleWorker.subscribe(sub);
-                    userInfo.clear(false);
-                    startActivity(new Intent(this, LoginActivity.class));
-                    finish();
+                    simpleWorker.subscribe(sub, new SimpleCallback() {
+                        @Override
+                        public void onResponse(Object o) {
+                            logout();
+                        }
+
+                        @Override
+                        public void onFailure(int i, String s) {
+                            logout();
+                        }
+                    });
+
                     break;
             }
         }
     }
 
+    private void logout(){
+        userInfo.clear(false);
+        startActivity(new Intent(SensorListActivity.this, LoginActivity.class));
+        finish();
+    }
+
     @Override
     protected void onDestroy() {
         Log.d(TAG, "onDestroy!");
+
         simpleWorker.disconnect();
         // clear sensor list
         clearSensorList();
@@ -175,8 +191,17 @@ public class SensorListActivity extends AppCompatActivity {
     public void onBackPressed() {
         Log.d(TAG, "onBackPressed!");
         Subscribe sub = new Subscribe("delist", userInfo.getServiceName(), userInfo.getDeviceName(), null, false, new ArrayList<String>(Arrays.asList("*")), new ArrayList<String>(Arrays.asList("*")), 1);
-        simpleWorker.subscribe(sub);
-        super.onBackPressed();
+        simpleWorker.subscribe(sub, new SimpleCallback() {
+            @Override
+            public void onResponse(Object o) {
+                SensorListActivity.super.onBackPressed();
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+                SensorListActivity.super.onBackPressed();
+            }
+        });
     }
 
     @Override
@@ -225,7 +250,7 @@ public class SensorListActivity extends AppCompatActivity {
             // add to listview
             listView.setAdapter(new SensorListAdapter(this, sensorInfos));
             Subscribe sub = new Subscribe(Define.ENLIST, userInfo.getServiceName(), userInfo.getDeviceName(), null, false, new ArrayList<String>(Arrays.asList("*")), new ArrayList<String>(Arrays.asList("*")), 1);
-            simpleWorker.subscribe(sub);
+            simpleWorker.subscribe(sub, null);
         } catch (JSONException e) {
             e.printStackTrace();
             return;
